@@ -1,5 +1,5 @@
-# Yolov3 Object Detection with Flask and Tensorflow 2.0 (APIs and Detections)
-Yolov3 is an algorithm that uses deep convolutional neural networks to perform object detection. This repository implements Yolov3 using TensorFlow 2.0 and creates two easy-to-use APIs that you can integrate into web or mobile applications. <br>
+# Yolov5 Object Detection with Flask and Tensorflow 2.0 (APIs and Detections)
+Yolov5 is an algorithm that uses deep convolutional neural networks to perform object detection. This repository implements yolov5 using TensorFlow 2.0 and creates two easy-to-use APIs that you can integrate into web or mobile applications. <br>
 
 ![example](https://github.com/theAIGuysCode/Object-Detection-API/blob/master/detections/detection.jpg)
 
@@ -10,11 +10,11 @@ Yolov3 is an algorithm that uses deep convolutional neural networks to perform o
 ```bash
 # Tensorflow CPU
 conda env create -f conda-cpu.yml
-conda activate yolov3-cpu
+conda activate yolov5-cpu
 
 # Tensorflow GPU
 conda env create -f conda-gpu.yml
-conda activate yolov3-gpu
+conda activate yolov5-gpu
 ```
 
 #### Pip
@@ -35,32 +35,32 @@ sudo apt install nvidia-driver-430
 https://www.nvidia.com/Download/index.aspx
 ```
 ### Downloading official pretrained weights
-For Linux: Let's download official yolov3 weights pretrained on COCO dataset. 
+For Linux: Let's download official yolov5 weights pretrained on COCO dataset. 
 
 ```
-# yolov3
-wget https://pjreddie.com/media/files/yolov3.weights -O weights/yolov3.weights
+# yolov5
+wget https://pjreddie.com/media/files/yolov5.weights -O weights/yolov5.weights
 
-# yolov3-tiny
-wget https://pjreddie.com/media/files/yolov3-tiny.weights -O weights/yolov3-tiny.weights
+# yolov5-tiny
+wget https://pjreddie.com/media/files/yolov5-tiny.weights -O weights/yolov5-tiny.weights
 ```
 For Windows:
-You can download the yolov3 weights by clicking [here](https://pjreddie.com/media/files/yolov3.weights) and yolov3-tiny [here](https://pjreddie.com/media/files/yolov3-tiny.weights) then save them to the weights folder.
+You can download the yolov5 weights by clicking [here](https://pjreddie.com/media/files/yolov5.weights) and yolov5-tiny [here](https://pjreddie.com/media/files/yolov5-tiny.weights) then save them to the weights folder.
 
 ### Using Custom trained weights
-<strong> Learn How To Train Custom YOLOV3 Weights Here: https://www.youtube.com/watch?v=zJDUhGL26iU </strong>
+<strong> Learn How To Train Custom yolov5 Weights Here: https://www.youtube.com/watch?v=zJDUhGL26iU </strong>
 
 Add your custom weights file to weights folder and your custom .names file into data/labels folder.
   
-### Saving your yolov3 weights as a TensorFlow model.
-Load the weights using `load_weights.py` script. This will convert the yolov3 weights into TensorFlow .ckpt model files!
+### Saving your yolov5 weights as a TensorFlow model.
+Load the weights using `load_weights.py` script. This will convert the yolov5 weights into TensorFlow .ckpt model files!
 
 ```
-# yolov3
+# yolov5
 python load_weights.py
 
-# yolov3-tiny
-python load_weights.py --weights ./weights/yolov3-tiny.weights --output ./weights/yolov3-tiny.tf --tiny
+# yolov5-tiny
+python load_weights.py --weights ./weights/yolov5-tiny.weights --output ./weights/yolov5-tiny.tf --tiny
 ```
 
 After executing one of the above lines, you should see .tf files in your weights folder.
@@ -71,7 +71,7 @@ Now you can run a Flask application to create two object detections APIs in orde
 If you used custom weights and classes then you may need to adjust one or two of the following lines within the app.py file before running it.
 ![app](https://github.com/theAIGuysCode/Object-Detection-API/blob/master/data/helpers/custom_app.PNG)
 
-You may also want to configure IOU threshold (how close two of the same class have to be in order to count it as one detection), the Confidence threshold (minimum detected confidence of a class in order to count it as a detection), or the maximum number of classes that can be detected in one image and all three can be adjusted within the yolov3-tf2/models.py file.
+You may also want to configure IOU threshold (how close two of the same class have to be in order to count it as one detection), the Confidence threshold (minimum detected confidence of a class in order to count it as a detection), or the maximum number of classes that can be detected in one image and all three can be adjusted within the yolov5-tf2/models.py file.
 ![models](https://github.com/theAIGuysCode/Object-Detection-API/blob/master/data/helpers/model_config.PNG)
 
 Initialize and run the Flask app on port 5000 of your local machine by running the following command from the root directory of this repo in a command prompt or shell.
@@ -121,27 +121,27 @@ This will save the returned image to the current folder as test.png (can't outpu
 
 <strong> NOTE: </strong> As a backup both APIs save the images with the detections drawn overtop to the /detections folder upon each API request.
 
-These are the two APIs I currently have created for Yolov3 Object Detection and I hope you find them useful. Feel free to integrate them into your applications as needed.
+These are the two APIs I currently have created for Yolov5 Object Detection and I hope you find them useful. Feel free to integrate them into your applications as needed.
 
 ## Running just the TensorFlow model
 The tensorflow model can also be run not using the APIs but through using `detect.py` script. 
 
-Don't forget to set the IoU (Intersection over Union) and Confidence Thresholds within your yolov3-tf2/models.py file
+Don't forget to set the IoU (Intersection over Union) and Confidence Thresholds within your yolov5-tf2/models.py file
 
 ### Usage examples
 Let's run an example or two using sample images found within the data/images folder. 
 ```bash
-# yolov3
+# yolov5
 python detect.py --images "data/images/dog.jpg, data/images/office.jpg"
 
-# yolov3-tiny
-python detect.py --weights ./weights/yolov3-tiny.tf --tiny --images "data/images/dog.jpg"
+# yolov5-tiny
+python detect.py --weights ./weights/yolov5-tiny.tf --tiny --images "data/images/dog.jpg"
 
 # webcam
 python detect_video.py --video 0
 
 # video file
-python detect_video.py --video data/video/paris.mp4 --weights ./weights/yolov3-tiny.tf --tiny
+python detect_video.py --video data/video/paris.mp4 --weights ./weights/yolov5-tiny.tf --tiny
 
 # video file with output saved (can save webcam like this too)
 python detect_video.py --video path_to_file.mp4 --output ./detections/output.avi
@@ -166,11 +166,11 @@ detection2.jpg
 ```bash
 load_weights.py:
   --output: path to output
-    (default: './weights/yolov3.tf')
-  --[no]tiny: yolov3 or yolov3-tiny
+    (default: './weights/yolov5.tf')
+  --[no]tiny: yolov5 or yolov5-tiny
     (default: 'false')
   --weights: path to weights file
-    (default: './weights/yolov3.weights')
+    (default: './weights/yolov5.weights')
   --num_classes: number of classes in the model
     (default: '80')
     (an integer)
@@ -182,10 +182,10 @@ detect.py:
     (default: 'data/images/dog.jpg')
   --output: path to output folder
     (default: './detections/')
-  --[no]tiny: yolov3 or yolov3-tiny
+  --[no]tiny: yolov5 or yolov5-tiny
     (default: 'false')
   --weights: path to weights file
-    (default: './weights/yolov3.tf')
+    (default: './weights/yolov5.tf')
   --num_classes: number of classes in the model
     (default: '80')
     (an integer)
@@ -199,17 +199,17 @@ detect_video.py:
     (default: None)
   --output_format: codec used in VideoWriter when saving video to file
     (default: 'XVID)
-  --[no]tiny: yolov3 or yolov3-tiny
+  --[no]tiny: yolov5 or yolov5-tiny
     (default: 'false')
   --weights: path to weights file
-    (default: './weights/yolov3.tf')
+    (default: './weights/yolov5.tf')
   --num_classes: number of classes in the model
     (default: '80')
     (an integer)
 ```
 
 ## Acknowledgments
-* [Yolov3 TensorFlow 2 Amazing Implementation](https://github.com/zzh8829/yolov3-tf2)
-* [Another Yolov3 TensorFlow 2](https://github.com/heartkilla/yolo-v3)
+* [yolov5 TensorFlow 2 Amazing Implementation](https://github.com/zzh8829/yolov5-tf2)
+* [Another yolov5 TensorFlow 2](https://github.com/heartkilla/yolo-v3)
 * [Yolo v3 official paper](https://arxiv.org/abs/1804.02767)
 * [A Tensorflow Slim implementation](https://github.com/mystic123/tensorflow-yolo-v3)
